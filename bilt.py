@@ -1,7 +1,7 @@
 import sys
 import os
 import pandas as pd
-from ..data import categories, desc, recategorize_by_desc
+from data import categories, desc, recategorize_by_desc
 
 
 def process(df):
