@@ -43,15 +43,16 @@ def process(df):
 
 
 if __name__ == "__main__":
-    args = sys.argv[1]
+    if len(sys.argv) < 3:
+        print("Usage: python amex.py <input_path> <output_path>")
+        sys.exit(1)
 
-    if args:
-        print("Running")
-        cwd = os.getcwd()
-        file_name = args[:-4]
-        df = pd.read_csv(args)
-        df = df[df["Category"].notna()]
-        process(df).to_csv(file_name + "_processed.csv", index=False)
-        print("Saved as " + file_name + "_processed.csv")
-    else:
-        print("No arguments provided. Please provide csv file for processing.")
+    input_path = sys.argv[1]
+    output_path = sys.argv[2]
+
+    print("Running")
+    cwd = os.getcwd()
+    df = pd.read_csv(input_path)
+    df = df[df["Category"].notna()]
+    process(df).to_csv(output_path, index=False)
+    print("Saved as " + output_path)

@@ -15,8 +15,8 @@ def process(df):
         df.loc[df["Description"].str.contains(key, case=False), "Category"] = value
 
     df["Main Category"] = df["Category"].map(categories)
-    df["Account"] = "Capital One SavorOne"
-    df["Desc"] = ""
+    df["Account"] = "Bilt"
+    df["Notes"] = ""
 
     # Account Names
     # df["Account Name"] = df["Account Name"].replace(
@@ -29,15 +29,15 @@ def process(df):
     # df.loc[df["Account Name"].str.contains("Blue Cash"), "Account Name"] = "Amex Blue"
     # df.loc[df["Account Name"].str.contains("Delta"), "Account Name"] = "Amex Delta"
 
-    df.loc[df["Credit"] > 0, "Debit"] = -df.Credit
+    df["Amount"] = -df["Amount"]
 
     return df[
         [
-            "Transaction Date",
+            "Date",
             "Description",
-            "Debit",
+            "Amount",
             "Category",
-            "Desc",
+            "Notes",
             "Account",
             "Main Category",
         ]
@@ -45,14 +45,17 @@ def process(df):
 
 
 if __name__ == "__main__":
-    args = sys.argv[1]
+    if len(sys.argv) < 3:
+        print("Usage: python amex.py <input_path> <output_path>")
+        sys.exit(1)
 
-    if args:
-        print("Running")
-        cwd = os.getcwd()
-        file_name = args[:-4]
-        df = pd.read_csv(args)
-        process(df).to_csv(file_name + "_processed.csv", index=False)
-        print("Saved as " + file_name + "_processed.csv")
-    else:
-        print("No arguments provided. Please provide csv file for processing.")
+    input_path = sys.argv[1]
+    output_path = sys.argv[2]
+
+    print("Running")
+    cwd = os.getcwd()
+    df = pd.read_csv(
+        input_path, header=None, names=["Date", "Amount", "*", "Notes", "Description"]
+    )
+    process(df).to_csv(output_path, index=False)
+    print("Saved as " + output_path)

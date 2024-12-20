@@ -29,7 +29,7 @@ def process(df):
         df.loc[df["Description"].str.contains(key, case=False), "Category"] = value
 
     df["Main Category"] = df["Category"].map(categories)
-    df["Account"] = "Amex Blue Cash Everyday"
+    df["Account"] = "Amex"
     df["Desc"] = ""
 
     # Account Names
@@ -57,23 +57,23 @@ def process(df):
 
 
 if __name__ == "__main__":
-    args = sys.argv[1]
+    if len(sys.argv) < 3:
+        print("Usage: python amex.py <input_path> <output_path>")
+        sys.exit(1)
 
-    if args:
-        print("Running")
-        cwd = os.getcwd()
-        file_name = args[:-5]
-        df = pd.read_excel(args, sheet_name=0)
+    input_path = sys.argv[1]
+    output_path = sys.argv[2]
 
-        ### Clean dataframe ###
-        # Reset columns
-        df.columns = df.iloc[5]
-        df = df[6:]
+    print("Running")
+    cwd = os.getcwd()
+    df = pd.read_excel(input_path, sheet_name=0)
 
-        # Remove rows with no category
-        df = df[df["Category"].notna()]
+    ### Clean dataframe ###
+    # Reset columns
+    df.columns = df.iloc[5]
+    df = df[6:]
 
-        process(df).to_csv(file_name + "_processed.csv", index=False)
-        print("Saved as " + file_name + "_processed.csv")
-    else:
-        print("No arguments provided. Please provide file for processing.")
+    # Remove rows with no category
+    df = df[df["Category"].notna()]
+    process(df).to_csv(output_path, index=False)
+    print("Saved as " + output_path)
