@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="icon" href="coin.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transactions Processor</title>
+  </head>
+  <body>
+    <h1>Process Transaction Files</h1>
+    <form id="fileForm">
+      <label for="fileInput">Upload a CSV file (XLSX for Amex)</label>
+      <input
+        type="file"
+        id="fileInput"
+        accept=".csv,.xlsx"
+        required
+      /><br /><br />
+
+      <label for="scriptSelect">Select a script</label>
+      <select id="scriptSelect" required>
+        <option value="Amex">Amex (requires .xlsx)</option>
+        <option value="Bilt">Bilt</option>
+        <option value="Chase">Chase</option>
+        <option value="Capital One">Capital One</option>
+        <option value="Citi">Citi</option></select
+      ><br /><br />
+
+      <button type="button" id="processButton">Process File</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("processButton")
+        .addEventListener("click", async () => {
+          const fileInput = document.getElementById("fileInput");
+          const scriptSelect = document.getElementById("scriptSelect");
+
+          if (!fileInput.files.length) {
+            alert("Please upload a file.");
+            return;
+          }
+
+          const file = fileInput.files[0];
+          const script = scriptSelect.value;
+
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("script", script);
+
+          try {
+            const response = await fetch("http://127.0.0.1:5000/process", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              alert(`Error: ${error.error}`);
+              return;
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `processed_${file.name}`;
+            link.click();
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred.");
+          }
+        });
+    </script>
+  </body>
+</html>
