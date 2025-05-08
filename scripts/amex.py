@@ -74,6 +74,6 @@ if __name__ == "__main__":
     # df = df[6:]
 
     # Remove rows with no category
-    # df = df[df["Category"].notna()]
+    df = df[df["Category"].notna()]
     process(df).to_csv(output_path, index=False)
     print("Saved as " + output_path)
