@@ -10,7 +10,7 @@ def process(df):
     recategorize_category = {
         "Taxis & Coach": "Ride share",
         "Internet Purchase": "Shopping",
-        "Fuel": "Gas & Fuel",
+        "Fuel": "Gas",
         "Clothing": "Clothing",
         "Rail Services": "Public transportation",
         "Merchandise & Supplies": "Merchandise",
@@ -66,14 +66,14 @@ if __name__ == "__main__":
 
     print("Running")
     cwd = os.getcwd()
-    df = pd.read_excel(input_path, sheet_name=0)
+    df = pd.read_csv(input_path)
 
     ### Clean dataframe ###
-    # Reset columns
-    df.columns = df.iloc[5]
-    df = df[6:]
+    # Reset columns -- Only necessary for xlsx
+    # df.columns = df.iloc[5]
+    # df = df[6:]
 
     # Remove rows with no category
-    df = df[df["Category"].notna()]
+    # df = df[df["Category"].notna()]
     process(df).to_csv(output_path, index=False)
     print("Saved as " + output_path)

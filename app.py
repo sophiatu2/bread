@@ -35,18 +35,18 @@ def process_file():
     if file.filename == "":
         return jsonify({"error": "No file selected"}), 400
 
-    if user_selection == "Amex":
-        expected_extension = ".xlsx"
-        if not file.filename.endswith(".xlsx"):
-            return (
-                jsonify(
-                    {
-                        "error": f"Invalid file type. Expected a .xlsx file for {user_selection}."
-                    }
-                ),
-                400,
-            )
-    elif not file.filename.lower().endswith(".csv"):
+    # if user_selection == "Amex":
+    #     expected_extension = ".xlsx"
+    #     if not file.filename.endswith(".xlsx"):
+    #         return (
+    #             jsonify(
+    #                 {
+    #                     "error": f"Invalid file type. Expected a .xlsx file for {user_selection}."
+    #                 }
+    #             ),
+    #             400,
+    #         )
+    if not file.filename.lower().endswith(".csv"):
         return (
             jsonify(
                 {
