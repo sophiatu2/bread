@@ -99,6 +99,7 @@ recategorize_by_desc = {
     "REGAL": "Movies & DVDs",
     "SAMS CLUB": "Groceries",
     "Sams Club": "Groceries",
+    "SAMSCLUB": "Groceries",
     "AMOREPIZZACAFE": "Fast food",
     "Shaws": "Groceries",
     "Spotify": "Subscriptions",
