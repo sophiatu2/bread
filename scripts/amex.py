@@ -29,7 +29,7 @@ def process(df):
         df.loc[df["Description"].str.contains(key, case=False), "Category"] = value
 
     df["Main Category"] = df["Category"].map(categories)
-    df["Account"] = "Amex"
+    df["Account"] = "Amex Blue Cash Everyday"
     df["Desc"] = ""
 
     # Account Names
