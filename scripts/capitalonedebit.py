@@ -8,14 +8,19 @@ def process(df):
 
     # Places
     for key, value in desc.items():
-        df.loc[df["Description"].str.contains(key, case=False), "Description"] = value
+        df.loc[
+            df["Transaction Description"].str.contains(key, case=False),
+            "Transaction Description",
+        ] = value
 
     # Subategories
     for key, value in recategorize_by_desc.items():
-        df.loc[df["Description"].str.contains(key, case=False), "Category"] = value
+        df.loc[
+            df["Transaction Description"].str.contains(key, case=False), "Category"
+        ] = value
 
     df["Main Category"] = df["Category"].map(categories)
-    df["Account"] = "Capital One SavorOne"
+    df["Account"] = "360 Checking"
     df["Desc"] = ""
 
     # Account Names
@@ -29,13 +34,13 @@ def process(df):
     # df.loc[df["Account Name"].str.contains("Blue Cash"), "Account Name"] = "Amex Blue"
     # df.loc[df["Account Name"].str.contains("Delta"), "Account Name"] = "Amex Delta"
 
-    df.loc[df["Credit"] > 0, "Debit"] = -df.Credit
+    df.loc[df["Transaction Type"] == "Credit", "Transaction Amount"] *= -1
 
     return df[
         [
             "Transaction Date",
-            "Description",
-            "Debit",
+            "Transaction Description",
+            "Transaction Amount",
             "Desc",
             "Main Category",
             "Category",
@@ -46,7 +51,7 @@ def process(df):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: python capitalone.py <input_path> <output_path>")
+        print("Usage: python capitalonedebit.py <input_path> <output_path>")
         sys.exit(1)
 
     input_path = sys.argv[1]
