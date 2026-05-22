@@ -31,17 +31,17 @@ def process(df):
     # df.loc[df["Account Name"].str.contains("Blue Cash"), "Account Name"] = "Amex Blue"
     # df.loc[df["Account Name"].str.contains("Delta"), "Account Name"] = "Amex Delta"
 
-    df.loc[df["Credit"] > 0, "Debit"] = df.Credit
+    df["Amount"] = df["Debit"].fillna(df["Credit"])
 
     return df[
         [
             "Date",
             "Description",
-            "Debit",
-            "Category",
+            "Amount",
             "Desc",
-            "Account",
             "Main Category",
+            "Category",
+            "Account",
         ]
     ]
 

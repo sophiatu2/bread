@@ -34,10 +34,10 @@ def process(df):
             "Transaction Date",
             "Description",
             "Amount",
-            "Category",
             "Notes",
-            "Account",
             "Main Category",
+            "Category",
+            "Account",
         ]
     ]
 
