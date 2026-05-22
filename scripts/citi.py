@@ -48,7 +48,7 @@ def process(df):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Usage: python amex.py <input_path> <output_path>")
+        print("Usage: python citi.py <input_path> <output_path>")
         sys.exit(1)
 
     input_path = sys.argv[1]

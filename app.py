@@ -19,6 +19,7 @@ SCRIPT_MAP = {
     "Bilt": "bilt.py",
     "Chase": "chase.py",
     "Capital One": "capitalone.py",
+    "Capital One Checking": "capitalonedebit.py",
     "Citi": "citi.py",
 }
 
