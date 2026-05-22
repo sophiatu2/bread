@@ -29,11 +29,9 @@ def process(df):
     # df.loc[df["Account Name"].str.contains("Blue Cash"), "Account Name"] = "Amex Blue"
     # df.loc[df["Account Name"].str.contains("Delta"), "Account Name"] = "Amex Delta"
 
-    df["Amount"] = -df["Amount"]
-
     return df[
         [
-            "Date",
+            "Transaction Date",
             "Description",
             "Amount",
             "Category",
@@ -54,8 +52,6 @@ if __name__ == "__main__":
 
     print("Running")
     cwd = os.getcwd()
-    df = pd.read_csv(
-        input_path, header=None, names=["Date", "Amount", "*", "Notes", "Description"]
-    )
+    df = pd.read_csv(input_path)
     process(df).to_csv(output_path, index=False)
     print("Saved as " + output_path)
