@@ -22,7 +22,7 @@ Re-run `source .venv/bin/activate` in each new terminal session. To skip activat
 
 Run `python3 app.py`
 
-Open `index.html`
+Open http://127.0.0.1:5000
 
 Upload a `.csv` file. The following banks are supported:
 
@@ -33,6 +33,6 @@ Upload a `.csv` file. The following banks are supported:
 5. Chase
 6. Citi
 
-Click the "Run" button to process the file and download the result as a `.csv`
+Click the "Process File" button to process the file and download the result as a `.csv`
 
 Feel free to add more mappings to `scripts/data.py` as desired
