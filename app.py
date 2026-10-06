@@ -1,12 +1,14 @@
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, send_from_directory
 from flask_cors import CORS
 from io import BytesIO
 import os
 import subprocess
+import sys
 
 app = Flask(__name__)
 CORS(app)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = "uploads"
 PROCESSED_FOLDER = "processed"
 
@@ -22,6 +24,23 @@ SCRIPT_MAP = {
     "Capital One Checking": "capitalonedebit.py",
     "Citi": "citi.py",
 }
+
+
+@app.route("/")
+def index():
+    return send_from_directory(BASE_DIR, "index.html")
+
+
+# Served explicitly rather than from a static folder so that only the UI
+# assets are exposed, not the rest of the project directory.
+@app.route("/index.css")
+def stylesheet():
+    return send_from_directory(BASE_DIR, "index.css")
+
+
+@app.route("/coin.png")
+def favicon():
+    return send_from_directory(BASE_DIR, "coin.png")
 
 
 @app.route("/process", methods=["POST"])
@@ -64,7 +83,7 @@ def process_file():
     if not script_name:
         return jsonify({"error": f"Invalid script selection: {user_selection}"}), 400
 
-    script_path = f"scripts/{script_name}"
+    script_path = os.path.join(BASE_DIR, "scripts", script_name)
     if not os.path.exists(script_path):
         return jsonify({"error": f"Script file not found: {script_path}"}), 400
 
@@ -82,8 +101,10 @@ def process_file():
             temp_input.write(input_stream.getvalue())
 
         # Run the Python script
+        # sys.executable keeps the script on the same interpreter as the
+        # server, so the venv's packages are used even without activation.
         subprocess.run(
-            ["python3", f"scripts/{script_name}", input_path, output_path], check=True
+            [sys.executable, script_path, input_path, output_path], check=True
         )
 
         # Read the output from the temporary file
