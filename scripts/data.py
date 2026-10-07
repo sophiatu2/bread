@@ -32,8 +32,8 @@ categories = {
     "Fast food": "Dining",
     "Dessert": "Dining",
     "Groceries": "Groceries",
-    "Income": "Work Income",
-    "Income": "Interest Income",
+    "Work Income": "Income",
+    "Interest Income": "Income",
     "Payment": "Payment",
     "Taxes": "Payment",
     "Transfer": "Payment"
